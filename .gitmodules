@@ -1,0 +1,15 @@
+[submodule "prism"]
+	path = prism
+	url = ../prism
+[submodule "prism_container"]
+	path = prism_container
+	url = ../prism_container/
+[submodule "prism_qt_modular"]
+	path = prism_qt_modular
+	url = ../prism_qt_modular/
+[submodule "prism_qt_core"]
+	path = prism_qt_core
+	url = ../prism_qt_core/
+[submodule "prism_qt_ui"]
+	path = prism_qt_ui
+	url = ../prism_qt_ui/
