@@ -11,8 +11,8 @@ paths=("$currentpath/prism/build" "$currentpath/prism_container/build" "$current
 for path in ${paths[@]}; do
    mkdir -p $path
    cd $path
-   cmake .. -DCMAKE_INSTALL_PREFIX=$installpath -DCMAKE_TOOLCHAIN_FILE=/repos/vcpkg/toolchains/arm64-raspberrypie.cmake
-   #cmake .. -DCMAKE_PREFIX_PATH="$installpath;$QT_DIR" -DCMAKE_INSTALL_PREFIX="$installpath" -DCMAKE_PREFIX_PATH="$installpath;$QT_DIR" -DCMAKE_INSTALL_PREFIX="$installpath"
+   #cmake .. -DCMAKE_INSTALL_PREFIX=$installpath -DCMAKE_TOOLCHAIN_FILE=/repos/vcpkg/toolchains/arm64-raspberrypie.cmake
+   cmake .. -DCMAKE_INSTALL_PREFIX=$installpath -DCMAKE_TOOLCHAIN_FILE=/repos/vcpkg/toolchains/arm64-jetson-xavier-nx.cmake
    if [ $? -ne 0 ]; then
     exit 1
    fi
