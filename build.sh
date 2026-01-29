@@ -3,11 +3,12 @@ set -x
 
 currentpath=$(pwd)
 
-paths=("$currentpath/prism/build" "$currentpath/prism_container/build" "$currentpath/prism_qt_modular/build" "$currentpath/prism_qt_core/build" )
+paths=("prism" "prism_container" "prism_qt_modular" "/prism_qt_core" "prism_qt_ui" )
 
 for path in ${paths[@]}; do
-   mkdir -p $path
-   cd $path
+   full_path=$currentpath/$path/build
+   mkdir -p $full_path
+   cd $full_path
    cmake ..  $@
    if [ $? -ne 0 ]; then
     exit 1
