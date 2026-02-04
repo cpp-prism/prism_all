@@ -1,6 +1,16 @@
-/build-**
-CMakeLists.txt.user
-**.DS_Store
-build
-bin
-*.swp
+Entering 'prism'
+.cache/
+Entering 'prism_container'
+.cache/
+Entering 'prism_qt_core'
+.cache/
+Entering 'prism_qt_modular'
+.cache/
+Entering 'prism_qt_ui'
+.cache/
+Entering 'prism'
+.cache/
+Entering 'prism_container'
+Entering 'prism_qt_core'
+Entering 'prism_qt_modular'
+Entering 'prism_qt_ui'
