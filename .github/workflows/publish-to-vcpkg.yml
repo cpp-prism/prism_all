@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    env:
+      VCPKG_BINARY_SOURCES: "clear;nuget,GitHub,readwrite"
+      NUGET_API_KEY: ${{ secrets.PRISM_ALL_PAT }} 
+      TARGET_REPO_PAT: ${{ secrets.PRISM_ALL_PAT }}
+      VCPKG_ROOT: "/home/runner/work/prism_all/prism_all/prism_vcpkg/"
+
+    steps:
+      - uses: nuget/setup-nuget@v2
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Configure NuGet source
+        run: |
+          nuget sources Add \
+            -Name GitHub \
+            -Source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json \
+            -Username ${{ github.actor }} \
+            -Password ${{ secrets.PRISM_ALL_PAT }}
+
+          nuget setapikey ${{ secrets.PRISM_ALL_PAT }} \
+            -Source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
+      - name: Setup vcpkg
+        run: |
+          git clone https://nocanstillbb:${TARGET_REPO_PAT}@github.com/cpp-prism/prism_vcpkg.git
+          cd prism_vcpkg
+          ./bootstrap-vcpkg.sh
+
+      - name: Install dependencies
+        run: |
+          pwd
+          sudo apt update && sudo apt install -y autoconf autoconf-archive automake libtool \
+              '^libxcb.*-dev' \
+              libx11-xcb-dev \
+              libglu1-mesa-dev \
+              libxrender-dev \
+              libxi-dev \
+              libxkbcommon-dev \
+              libxkbcommon-x11-dev \
+              libegl1-mesa-dev
+          ./prism_vcpkg/vcpkg install 
+
+
+      - name: Configure
+        run: |
+          sudo chmod +x ./build.sh
+          ./build.sh -DCMAKE_PREFIX_PATH=/home/runner/work/prism_all/prism_all/vcpkg_installed/x64-linux/ \
+            -DCMAKE_INSTALL_PREFIX=/home/runner/work/prism_all/prism_all/vcpkg_installed/x64-linux/ 
+                
+
+      - name: vcpkg publish
+        run: |
+          git config --global user.email "kok.bing@qq.com"
+          git config --global user.name "hbb"
+          VERSION=$(cat version.txt)
+          FULL_MSG=$(git log -1 --pretty=%B)
+          TITLE=$(echo "$FULL_MSG" | head -n1)
+          BODY=$(echo "$FULL_MSG" | tail -n +2)
+          NEW_TITLE="[prism_all] ${TITLE} (${VERSION})"
+          cd prism_vcpkg
+          find . |grep -i prism
+          git add . && git commit -m "$NEW_TITLE" -m "$BODY"
+          ./vcpkg --x-builtin-ports-root=./ports --x-builtin-registry-versions-dir=./versions x-add-version --all --verbose  --overwrite-version
+          git commit --amend --no-edit
+          git push 
+

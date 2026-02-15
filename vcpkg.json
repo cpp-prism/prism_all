@@ -1,0 +1,43 @@
+{
+  "name": "prism-all",
+  "version": "1.0.0",
+  "dependencies": [
+    "fmt",
+    "catch2",
+    "sqlite3",
+    "nlohmann-json",
+    "zlog",
+    {
+      "name": "qtbase",
+      "default-features": true
+    },
+    "qtdeclarative"
+  ],
+  "builtin-baseline": "1f7891a68942258bc3bd954fa3d4ce70c67dc160",
+  "overrides": [
+    {
+      "name": "qtbase",
+      "version": "6.8.3"
+    },
+    {
+      "name": "qtdeclarative",
+      "version": "6.8.3"
+    },
+    {
+      "name": "qttools",
+      "version": "6.8.3"
+    },
+    {
+      "name": "boost",
+      "version": "1.83.0"
+    },
+    {
+      "name": "opencv4",
+      "version": "4.5.5#7"
+    },
+    {
+      "name": "catch2",
+      "version": "3.4.0"
+    }
+  ]
+}
