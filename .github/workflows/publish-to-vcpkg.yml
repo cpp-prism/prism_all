@@ -71,8 +71,8 @@ jobs:
           NEW_TITLE="[prism_all] ${TITLE} (${VERSION})"
           cd prism_vcpkg
           find . |grep -i prism
-          git add . && git commit -m "$NEW_TITLE" -m "$BODY"
+          git add . && git commit -m "$NEW_TITLE" -m "$BODY" 
           ./vcpkg --x-builtin-ports-root=./ports --x-builtin-registry-versions-dir=./versions x-add-version --all --verbose  --overwrite-version
-          git commit --amend --no-edit
+          git commit -a --amend --no-edit
           git push 
 
